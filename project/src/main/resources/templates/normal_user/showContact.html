@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="www.thymeleaf.org" th:replace="~{normal_user/base::layout(~{::section})}">
+<head>
+<meta charset="ISO-8859-1">
+<title th:text="${title}"></title>
+</head>
+<body>
+
+
+<div class="container mt-2">
+<section>
+
+
+<h1 class="text-center mt-2">your Contacts</h1>
+<div th:if="${session.message1}" class="container">
+                <div th:classappend="${'alert alert-' + session.message1.type}" class="alert text-center" role="alert">
+                    <span th:text="${session.message1.content}"></span>
+                </div>
+            </div>
+
+<div class="row mt-5">
+
+<table class="table text-center">
+  <thead>
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody >
+  
+    <tr th:each="c:${contacts}">
+      <td th:text="'SCM2024'+${c.c_id}"></td>
+      <td>
+      <!--  <img class="profile_picture" alt="" src="" th:src="@{'/images/' + c.image}"/>-->
+      
+     <!--   <img class="profile_picture" alt="" th:src="@{${c.image != null ? '/images/' + c.image : '/images/contact.png'}}" />-->
+     <img class="profile_picture" alt="" th:src="@{${#strings.isEmpty(c.image) ? '/images/contact.png' : '/images/' + c.image}}" />
+     
+      
+       <span th:text="${c.name}"></span>
+        </td>
+      <td th:text="${c.email}"></td>
+      <td th:text="${c.phone}"></td>
+      <td>
+      <div>
+     <form class="mb-2 " action="" method="post" th:action="@{'/user/updateContact/'+${c.c_id}}">
+       <button type="submit" class="btn btn-primary">Update</button>    
+      </form>
+      
+    <a  th:href="@{'/user/deleteContact/'+${c.c_id}}" class="btn btn-danger">Delete</a>      
+      
+      </div>
+      </td>
+    </tr>
+    
+  </tbody>
+</table>
+
+</div>
+
+</section>
+
+</div>
+</body>
+</html>
